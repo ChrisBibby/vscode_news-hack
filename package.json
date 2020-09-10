@@ -1,0 +1,93 @@
+{
+  "name": "news-hack",
+  "displayName": "News Hack",
+  "description": "Hacker News headlines from within VSCode.",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#000000",
+    "theme": "dark"
+  },
+  "version": "0.0.1",
+  "publisher": "chrisbibby",
+  "author": {
+    "name": "Chris Bibby"
+  },
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/ChrisBibby/vscode_hack-news.git"
+  },
+  "homepage": "https://github.com/ChrisBibby/vscode_hack-news",
+  "bugs": "https://github.com/ChrisBibby/vscode_hack-news/issues",
+  "engines": {
+    "vscode": "^1.48.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:hacker-news-top-stories"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "hacker-news",
+          "title": "Hacker News",
+          "icon": "./images/icon.png"
+        }
+      ]
+    },
+    "views": {
+      "hacker-news": [
+        {
+          "id": "hacker-news-top-stories",
+          "name": "Stories"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "hacker-news.refresh-stories",
+        "title": "Refresh",
+        "icon": {
+          "light": "imags/light/refresh.svg",
+          "dark": "images/dark/refresh.svg"
+        }
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "hacker-news.refresh-stories",
+          "when": "view == hacker-news-top-stories",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": []
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "deploy": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.27",
+    "@types/vscode": "^1.48.0",
+    "@typescript-eslint/eslint-plugin": "^3.8.0",
+    "@typescript-eslint/parser": "^3.8.0",
+    "eslint": "^7.6.0",
+    "typescript": "^4.0.2",
+    "vsce": "^1.79.5",
+    "vscode-test": "^1.4.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.0"
+  }
+}

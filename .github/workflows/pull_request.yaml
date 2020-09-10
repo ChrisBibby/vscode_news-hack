@@ -1,0 +1,40 @@
+name: Rash
+on:
+  pull_request:
+    types: closed
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        if: github.event.pull_request.merged
+        with:
+          ref: refs/heads/master
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-${{ env.cache-name }}-
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+      - run: npm ci
+      - run: npm run compile --if-present
+        env:
+          CI: true
+      - run: |
+          git config user.name $GITHUB_ACTOR
+          git config user.email github-actions-${GITHUB_ACTOR}@github.com
+          npm version patch -m "Version - %s" -f
+          git remote add gh-origin https://${GITHUB_ACTOR}:${GITHUB_SECRET}@github.com/${GITHUB_REPOSITORY}.git
+          git push gh-origin HEAD:master --tags
+          npm run deploy
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+          GITHUB_SECRET: ${{ secrets.GH_SECRET }}
