@@ -38,11 +38,17 @@
         }
       ]
     },
+    "viewsWelcome": [
+      {
+        "view": "hacker-news-top-stories",
+        "contents": "Retrieving Hacker News Top Stories"
+      }
+    ],
     "views": {
       "hacker-news": [
         {
           "id": "hacker-news-top-stories",
-          "name": "Stories"
+          "name": "Top Stories"
         }
       ]
     },
@@ -58,6 +64,11 @@
     ],
     "menus": {
       "view/title": [
+        {
+          "command": "hacker-news.refresh-stories",
+          "when": "view == hacker-news-top-stories",
+          "group": "navigation"
+        },
         {
           "command": "hacker-news.refresh-stories",
           "when": "view == hacker-news-top-stories",
