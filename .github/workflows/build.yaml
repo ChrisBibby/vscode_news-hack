@@ -1,4 +1,4 @@
-name: Rash
+name: Hack-News
 on:
   push:
     branches-ignore:
