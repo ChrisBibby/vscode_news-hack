@@ -27,7 +27,7 @@
   "activationEvents": [
     "onView:hacker-news-top-stories"
   ],
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "viewsContainers": {
       "activitybar": [
@@ -81,14 +81,17 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "lint": "eslint src --ext ts",
     "pretest": "npm run compile && npm run lint",
     "test": "node ./out/test/runTest.js",
     "watch": "tsc -watch -p ./",
     "package": "vsce package",
-    "deploy": "vsce publish"
+    "deploy": "vsce publish",
+    "vscode:prepublish": "webpack --mode production",
+    "webpack": "webpack --mode development",
+    "webpack-dev": "webpack --mode development --watch",
+    "test-compile": "tsc -p ./"
   },
   "devDependencies": {
     "@types/node": "^14.0.27",
@@ -96,9 +99,12 @@
     "@typescript-eslint/eslint-plugin": "^3.8.0",
     "@typescript-eslint/parser": "^3.8.0",
     "eslint": "^7.6.0",
+    "ts-loader": "^8.0.3",
     "typescript": "^4.0.2",
     "vsce": "^1.79.5",
-    "vscode-test": "^1.4.0"
+    "vscode-test": "^1.4.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "axios": "^0.19.0",

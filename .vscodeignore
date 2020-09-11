@@ -1,7 +1,7 @@
 .github/**
 .vscode/**
 .vscode-test/**
-out/test/**
+out/**
 src/**
 **/tsconfig.json
 **/.eslintrc.json
@@ -12,3 +12,5 @@ vsc-extension-quickstart.md
 .nvmrc
 .gitignore
 .yarnrc
+node_modules
+webpack.config.js
