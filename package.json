@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "uri": "https://github.com/ChrisBibby/vscode_hack-news"
+    "uri": "https://github.com/ChrisBibby/vscode_hack-news.git"
   },
   "homepage": "https://github.com/ChrisBibby/vscode_hack-news",
   "bugs": "https://github.com/ChrisBibby/vscode_hack-news/issues",
