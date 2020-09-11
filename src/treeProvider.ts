@@ -1,28 +1,39 @@
 import * as vscode from 'vscode';
 import { Article, HackerNewsApi } from './hackerNewsApi';
 import path = require('path');
+import moment = require('moment');
 
 export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeItem> {
-  private hackerNewsInternal = 'https://news.ycombinator.com/item?id=';
+  private hackerNewsUrl = 'https://news.ycombinator.com/item?id=';
   private hackerNewsApi: HackerNewsApi = new HackerNewsApi();
 
-  constructor() {}
+  constructor() { }
 
   async populateArticleTree(articles: Article[]): Promise<TreeItem[]> {
     const tree: TreeItem[] = [];
     for (const article of articles) {
-      const url = article.url ? article.url : `${this.hackerNewsInternal}${article.id}`;
-      const childNode: TreeItem = new TreeItem(url);
-      childNode.iconPath = new vscode.ThemeIcon('link');
+      const url = article.url ? article.url : `${this.hackerNewsUrl}${article.id}`;
+
+      const childNode: TreeItem = new TreeItem(`${article.descendants} comments`);
+      childNode.description = `${this.hackerNewsUrl}${article.id}`;
+      childNode.iconPath = new vscode.ThemeIcon('comment-discussion');
       childNode.command = {
+        command: 'hack-news.openArticle',
+        title: 'Open Article',
+        arguments: [`${this.hackerNewsUrl}${article.id}`],
+      };
+
+      const treeNode: TreeItem = new TreeItem(article.title, [childNode]);
+      const timeSince = moment.unix(article.time).fromNow();
+      treeNode.tooltip = `${article.title} - ${url}`;
+      treeNode.description = `${timeSince} - ${url}`;
+      treeNode.iconPath = new vscode.ThemeIcon('link');
+      treeNode.command = {
         command: 'hack-news.openArticle',
         title: 'Open Article',
         arguments: [url],
       };
 
-      const treeNode: TreeItem = new TreeItem(article.title, [childNode]);
-      treeNode.tooltip = article.title;
-      treeNode.description = url;
       tree.push(treeNode);
     }
 
