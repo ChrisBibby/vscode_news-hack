@@ -1,3 +1,3 @@
-# hack-new README
+# News Hack README
 
 This VSCode extension adds the ability to view [Hacker News](https://news.ycombinator.com/) headlines from within the VSCode environment.
