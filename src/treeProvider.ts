@@ -13,8 +13,9 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
     const tree: TreeItem[] = [];
     for (const article of articles) {
       const url = article.url ? article.url : `${this.hackerNewsUrl}${article.id}`;
+      const timeSince = moment.unix(article.time).fromNow();
 
-      const childNode: TreeItem = new TreeItem(`${article.descendants} comments`);
+      const childNode: TreeItem = new TreeItem(`${article.score} points by ${article.by} ${timeSince} - ${article.descendants} comments`);
       childNode.description = `${this.hackerNewsUrl}${article.id}`;
       childNode.iconPath = new vscode.ThemeIcon('comment-discussion');
       childNode.command = {
@@ -24,9 +25,8 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
       };
 
       const treeNode: TreeItem = new TreeItem(article.title, [childNode]);
-      const timeSince = moment.unix(article.time).fromNow();
       treeNode.tooltip = `${article.title} - ${url}`;
-      treeNode.description = `${timeSince} - ${url}`;
+      treeNode.description = `${url}`;
       treeNode.iconPath = new vscode.ThemeIcon('link');
       treeNode.command = {
         command: 'hack-news.openArticle',

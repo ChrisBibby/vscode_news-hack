@@ -7,14 +7,14 @@
     "color": "#000000",
     "theme": "dark"
   },
-  "version": "0.0.2",
+  "version": "0.0.4",
   "publisher": "chrisbibby",
   "author": {
     "name": "Chris Bibby"
   },
   "repository": {
     "type": "git",
-    "uri": "https://github.com/ChrisBibby/vscode_hack-news.git"
+    "uri": "https://github.com/ChrisBibby/vscode_hack-news"
   },
   "homepage": "https://github.com/ChrisBibby/vscode_hack-news",
   "bugs": "https://github.com/ChrisBibby/vscode_hack-news/issues",
