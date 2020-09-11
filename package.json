@@ -54,18 +54,20 @@
     },
     "commands": [
       {
+        "command": "hacker-news.visit-website",
+        "title": "Open Hacker News Website",
+        "icon": "$(globe)"
+      },
+      {
         "command": "hacker-news.refresh-stories",
-        "title": "Refresh",
-        "icon": {
-          "light": "imags/light/refresh.svg",
-          "dark": "images/dark/refresh.svg"
-        }
+        "title": "Refresh Top Stories",
+        "icon": "$(sync)"
       }
     ],
     "menus": {
       "view/title": [
         {
-          "command": "hacker-news.refresh-stories",
+          "command": "hacker-news.visit-website",
           "when": "view == hacker-news-top-stories",
           "group": "navigation"
         },

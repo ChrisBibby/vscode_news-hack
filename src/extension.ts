@@ -14,9 +14,17 @@ export async function activate(_context: vscode.ExtensionContext) {
   });
 
   vscode.commands.registerCommand('hacker-news.refresh-stories', () => {
-    vscode.window.showInformationMessage('Refreshing Hacker News Stories');
     treeDataProvider.refresh();
+  });
+
+  vscode.commands.registerCommand('hacker-news.visit-website', () => {
+    const hackerNewsUrl = "https://news.ycombinator.com/";
+    if (vscode.env.openExternal) {
+      vscode.env.openExternal(vscode.Uri.parse(hackerNewsUrl));
+    } else {
+      vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(hackerNewsUrl));
+    }
   });
 }
 
-export function deactivate() {}
+export function deactivate() { }
