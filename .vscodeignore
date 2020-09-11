@@ -7,7 +7,6 @@ src/**
 **/.eslintrc.json
 **/*.map
 **/*.ts
-node_modules
 vsc-extension-quickstart.md
 .prettierignore
 .nvmrc
