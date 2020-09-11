@@ -1,12 +1,13 @@
 import * as vscode from 'vscode';
 import { Article, HackerNewsApi } from './hackerNewsApi';
 import path = require('path');
+import moment = require('moment');
 
 export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeItem> {
   private hackerNewsUrl = 'https://news.ycombinator.com/item?id=';
   private hackerNewsApi: HackerNewsApi = new HackerNewsApi();
 
-  constructor() {}
+  constructor() { }
 
   async populateArticleTree(articles: Article[]): Promise<TreeItem[]> {
     const tree: TreeItem[] = [];
@@ -23,8 +24,9 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
       };
 
       const treeNode: TreeItem = new TreeItem(article.title, [childNode]);
+      const timeSince = moment.unix(article.time).fromNow();
       treeNode.tooltip = `${article.title} - ${url}`;
-      treeNode.description = url;
+      treeNode.description = `${timeSince} - ${url}`;
       treeNode.iconPath = new vscode.ThemeIcon('link');
       treeNode.command = {
         command: 'hack-news.openArticle',
