@@ -7,7 +7,7 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
   private hackerNewsUrl = 'https://news.ycombinator.com/item?id=';
   private hackerNewsApi: HackerNewsApi = new HackerNewsApi();
   private articleList: Article[] = [];
-  private articlesRead = new Set();
+  private articlesRead: number[] = [];
 
   constructor() { }
 
@@ -64,11 +64,14 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
   }
 
   isArticleRead(articleId: number): boolean {
-    return this.articlesRead.has(articleId);
+    return this.articlesRead.includes(articleId);
   }
 
   markArticleRead(articleId: number) {
-    this.articlesRead.add(articleId);
+    if (this.articlesRead.length > 250) {
+      this.articlesRead.shift();
+    }
+    this.articlesRead.push(articleId);
   }
 }
 
