@@ -6,6 +6,8 @@ import moment = require('moment');
 export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeItem> {
   private hackerNewsUrl = 'https://news.ycombinator.com/item?id=';
   private hackerNewsApi: HackerNewsApi = new HackerNewsApi();
+  private articleList: Article[] = [];
+  private articlesRead = new Set();
 
   constructor() { }
 
@@ -25,13 +27,14 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
       };
 
       const treeNode: TreeItem = new TreeItem(article.title, [childNode]);
+      const iconColor = this.isArticleRead(article.id) ? 'newsHack.read' : 'newsHack.unread';
       treeNode.tooltip = `${article.title} - ${url}`;
       treeNode.description = `${url}`;
-      treeNode.iconPath = new vscode.ThemeIcon('link');
+      treeNode.iconPath = new vscode.ThemeIcon('link', new vscode.ThemeColor(iconColor));
       treeNode.command = {
         command: 'hack-news.openArticle',
         title: 'Open Article',
-        arguments: [url],
+        arguments: [url, article.id],
       };
 
       tree.push(treeNode);
@@ -53,13 +56,20 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
 
   async getChildren(element?: TreeItem): Promise<TreeItem[] | undefined> {
     if (element === undefined) {
-      return this.populateArticleTree(await this.hackerNewsApi.getTopStories());
+      this.articleList = await this.hackerNewsApi.getTopStories();
+      return this.populateArticleTree(this.articleList);
     }
 
     return Promise.resolve(element.children || undefined);
   }
 
-  // TODO: Dispose - need some cleanup for the extension.
+  isArticleRead(articleId: number): boolean {
+    return this.articlesRead.has(articleId);
+  }
+
+  markArticleRead(articleId: number) {
+    this.articlesRead.add(articleId);
+  }
 }
 
 class TreeItem extends vscode.TreeItem {

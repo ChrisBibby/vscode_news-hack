@@ -7,7 +7,7 @@
     "color": "#000000",
     "theme": "dark"
   },
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "chrisbibby",
   "author": {
     "name": "Chris Bibby"
@@ -19,7 +19,7 @@
   "homepage": "https://github.com/ChrisBibby/vscode_news-hack",
   "bugs": "https://github.com/ChrisBibby/vscode_news-hack/issues",
   "engines": {
-    "vscode": "^1.48.0"
+    "vscode": "^1.51.0"
   },
   "categories": [
     "Other"
@@ -29,6 +29,36 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "News Hack",
+      "properties": {
+        "newsHack.historySize": {
+          "type": "number",
+          "default": 1000,
+          "description": "Number of Hacker News articles to keep in history."
+        }
+      }
+    },
+    "colors": [
+      {
+        "id": "newsHack.unread",
+        "description": "Color for displaying unread Hacker News articles",
+        "defaults": {
+          "dark": "#3778C2",
+          "light": "#3778C2",
+          "highContrast": "#010203"
+        }
+      },
+      {
+        "id": "newsHack.read",
+        "description": "Color for displaying read Hacker News articles",
+        "defaults": {
+          "dark": "#63BCE5",
+          "light": "#63BCE5",
+          "highContrast": "#010203"
+        }
+      }
+    ],
     "viewsContainers": {
       "activitybar": [
         {
@@ -95,14 +125,14 @@
   },
   "devDependencies": {
     "@types/node": "^14.0.27",
-    "@types/vscode": "^1.48.0",
+    "@types/vscode": "^1.51.0",
     "@typescript-eslint/eslint-plugin": "^3.8.0",
     "@typescript-eslint/parser": "^3.8.0",
     "eslint": "^7.6.0",
     "ts-loader": "^8.0.3",
     "typescript": "^4.0.2",
     "vsce": "^1.79.5",
-    "vscode-test": "^1.4.0",
+    "vscode-test": "^1.4.1",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   },
