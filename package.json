@@ -53,8 +53,8 @@
         "id": "newsHack.read",
         "description": "Color for displaying read Hacker News articles",
         "defaults": {
-          "dark": "#63BCE5",
-          "light": "#63BCE5",
+          "dark": "#AC80E9",
+          "light": "#AC80E9",
           "highContrast": "#010203"
         }
       }
