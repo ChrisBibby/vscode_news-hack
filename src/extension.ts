@@ -5,11 +5,9 @@ export async function activate(_context: vscode.ExtensionContext) {
   const treeDataProvider: NodeDependenciesProvider = new NodeDependenciesProvider();
   vscode.window.registerTreeDataProvider('hacker-news-top-stories', treeDataProvider);
 
-  vscode.commands.registerCommand('hack-news.openArticle', (resource, articleId) => {
+  vscode.commands.registerCommand('hack-news.openArticle', (resource) => {
     if (vscode.env.openExternal) {
-      treeDataProvider.markArticleRead(articleId);
       vscode.env.openExternal(vscode.Uri.parse(resource));
-      treeDataProvider.refresh();
     } else {
       vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(resource));
     }
