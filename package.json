@@ -29,16 +29,6 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "configuration": {
-      "title": "News Hack",
-      "properties": {
-        "newsHack.historySize": {
-          "type": "number",
-          "default": 1000,
-          "description": "Number of Hacker News articles to keep in history."
-        }
-      }
-    },
     "colors": [
       {
         "id": "newsHack.unread",
@@ -137,7 +127,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.0",
     "moment": "^2.29.1"
   }
 }

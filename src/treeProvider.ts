@@ -68,9 +68,10 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
   }
 
   markArticleRead(articleId: number) {
-    if (this.articlesRead.length > 250) {
+    if (this.articlesRead.length > 200) {
       this.articlesRead.shift();
     }
+
     this.articlesRead.push(articleId);
   }
 }
