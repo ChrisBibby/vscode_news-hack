@@ -7,9 +7,9 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
   private hackerNewsUrl = 'https://news.ycombinator.com/item?id=';
   private hackerNewsApi: HackerNewsApi = new HackerNewsApi();
   private articleList: Article[] = [];
-  private articlesRead: number[] = [];
+  private history: History = new History();
 
-  constructor() { }
+  constructor(private context: vscode.ExtensionContext) { }
 
   async populateArticleTree(articles: Article[]): Promise<TreeItem[]> {
     const tree: TreeItem[] = [];
@@ -36,10 +36,8 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
         title: 'Open Article',
         arguments: [url, article.id],
       };
-
       tree.push(treeNode);
     }
-
     return tree;
   }
 
@@ -64,18 +62,30 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
   }
 
   isArticleRead(articleId: number): boolean {
-    return this.articlesRead.includes(articleId);
+    if (this.history.articlesRead && this.history.articlesRead.length > 0) {
+      console.log(this.history.articlesRead.includes(articleId));
+      return this.history.articlesRead.includes(articleId);
+    }
+    return false;
   }
 
-  markArticleRead(articleId: number) {
-    if (this.articlesRead.length > 200) {
-      this.articlesRead.shift();
-    }
+  async markArticleRead(articleId: number) {
+    this.history.articlesRead = await this.context.globalState.get('articleHistory');
+    if (this.history.articlesRead && this.history.articlesRead.length > 0) {
 
-    this.articlesRead.push(articleId);
+      if (this.history.articlesRead.length > 200) {
+        this.history.articlesRead.shift();
+      }
+
+      this.history.articlesRead.push(articleId);
+      await this.context.globalState.update('articleHistory', this.history.articlesRead);
+    }
   }
 }
 
+class History {
+  articlesRead: number[] | undefined = [];
+}
 class TreeItem extends vscode.TreeItem {
   children?: TreeItem[];
 

@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { NodeDependenciesProvider } from './treeProvider';
 
 export async function activate(_context: vscode.ExtensionContext) {
-  const treeDataProvider: NodeDependenciesProvider = new NodeDependenciesProvider();
+  const treeDataProvider: NodeDependenciesProvider = new NodeDependenciesProvider(_context);
   vscode.window.registerTreeDataProvider('hacker-news-top-stories', treeDataProvider);
 
   vscode.commands.registerCommand('hack-news.openArticle', (resource, articleId) => {
@@ -20,6 +20,7 @@ export async function activate(_context: vscode.ExtensionContext) {
   });
 
   vscode.commands.registerCommand('hacker-news.visit-website', () => {
+    console.log('click fred');
     const hackerNewsUrl = "https://news.ycombinator.com/";
     if (vscode.env.openExternal) {
       vscode.env.openExternal(vscode.Uri.parse(hackerNewsUrl));
