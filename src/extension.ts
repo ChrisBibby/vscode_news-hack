@@ -22,7 +22,7 @@ export async function activate(_context: vscode.ExtensionContext) {
   vscode.commands.registerCommand('hacker-news.clear-history', () => {
     treeDataProvider.clearArticleHistory();
     treeDataProvider.refresh();
-    vscode.window.showInformationMessage(`Hack-News Article History has been cleared.`);
+    vscode.window.showInformationMessage(`Hacker News Article History has been cleared.`);
   });
 
   vscode.commands.registerCommand('hacker-news.visit-website', () => {
