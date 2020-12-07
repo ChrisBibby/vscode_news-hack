@@ -1,5 +1,5 @@
 [![](https://vsmarketplacebadge.apphb.com/version/chrisbibby.news-hack.svg)](https://marketplace.visualstudio.com/items?itemName=chrisbibby.news-hack)
-[![](https://vsmarketplacebadge.apphb.com/installs/chrisbibby.news-hack.svg)](vscode:extension/chrisbibby.news-hack)
+[![](https://vsmarketplacebadge.apphb.com/installs/chrisbibby.news-hack.svg)](https://marketplace.visualstudio.com/items?itemName=chrisbibby.news-hack)
 [![](http://vsmarketplacebadge.apphb.com/rating/chrisbibby.news-hack.svg)](https://marketplace.visualstudio.com/items?itemName=chrisbibby.news-hack&ssr=false#review-details)
 
 # News Hack README
