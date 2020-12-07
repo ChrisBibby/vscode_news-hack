@@ -8,8 +8,8 @@ export async function activate(_context: vscode.ExtensionContext) {
   vscode.commands.registerCommand('hack-news.openArticle', (resource, articleId) => {
     if (vscode.env.openExternal) {
       treeDataProvider.markArticleRead(articleId);
-      vscode.env.openExternal(vscode.Uri.parse(resource));
       treeDataProvider.refresh();
+      vscode.env.openExternal(vscode.Uri.parse(resource));
     } else {
       vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(resource));
     }
@@ -19,8 +19,13 @@ export async function activate(_context: vscode.ExtensionContext) {
     treeDataProvider.refresh();
   });
 
+  vscode.commands.registerCommand('hacker-news.clear-history', () => {
+    treeDataProvider.clearArticleHistory();
+    treeDataProvider.refresh();
+    vscode.window.showInformationMessage(`Hack-News Article History has been cleared.`);
+  });
+
   vscode.commands.registerCommand('hacker-news.visit-website', () => {
-    console.log('click fred');
     const hackerNewsUrl = "https://news.ycombinator.com/";
     if (vscode.env.openExternal) {
       vscode.env.openExternal(vscode.Uri.parse(hackerNewsUrl));

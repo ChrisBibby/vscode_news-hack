@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import { Article, HackerNewsApi } from './hackerNewsApi';
-import path = require('path');
 import moment = require('moment');
 
 export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeItem> {
@@ -12,6 +11,9 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
   constructor(private context: vscode.ExtensionContext) { }
 
   async populateArticleTree(articles: Article[]): Promise<TreeItem[]> {
+
+    this.history.articlesRead = await this.context.globalState.get('articleHistory') || [];
+
     const tree: TreeItem[] = [];
     for (const article of articles) {
       const url = article.url ? article.url : `${this.hackerNewsUrl}${article.id}`;
@@ -63,23 +65,24 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
 
   isArticleRead(articleId: number): boolean {
     if (this.history.articlesRead && this.history.articlesRead.length > 0) {
-      console.log(this.history.articlesRead.includes(articleId));
       return this.history.articlesRead.includes(articleId);
     }
     return false;
   }
 
   async markArticleRead(articleId: number) {
-    this.history.articlesRead = await this.context.globalState.get('articleHistory');
-    if (this.history.articlesRead && this.history.articlesRead.length > 0) {
-
+    this.history.articlesRead = await this.context.globalState.get('articleHistory') || [];
+    if (this.history.articlesRead) {
       if (this.history.articlesRead.length > 200) {
         this.history.articlesRead.shift();
       }
-
       this.history.articlesRead.push(articleId);
       await this.context.globalState.update('articleHistory', this.history.articlesRead);
     }
+  }
+
+  async clearArticleHistory() {
+    await this.context.globalState.update('articleHistory', []);
   }
 }
 

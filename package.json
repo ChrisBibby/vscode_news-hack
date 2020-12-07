@@ -3,11 +3,17 @@
   "displayName": "News Hack",
   "description": "Hacker News headlines from within VSCode.",
   "icon": "images/icon.png",
+  "keywords": [
+    "news",
+    "trending",
+    "hacker news",
+    "stories"
+  ],
   "galleryBanner": {
     "color": "#000000",
     "theme": "dark"
   },
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publisher": "chrisbibby",
   "author": {
     "name": "Chris Bibby"
@@ -34,18 +40,18 @@
         "id": "newsHack.unread",
         "description": "Color for displaying unread Hacker News articles",
         "defaults": {
-          "dark": "#3778C2",
-          "light": "#3778C2",
-          "highContrast": "#010203"
+          "dark": "#4169e1",
+          "light": "#3d3d3d",
+          "highContrast": "#ffffff"
         }
       },
       {
         "id": "newsHack.read",
         "description": "Color for displaying read Hacker News articles",
         "defaults": {
-          "dark": "#AC80E9",
-          "light": "#AC80E9",
-          "highContrast": "#010203"
+          "dark": "#89cff0",
+          "light": "#cfcfcf",
+          "highContrast": "#ffffff"
         }
       }
     ],
@@ -82,6 +88,11 @@
         "command": "hacker-news.refresh-stories",
         "title": "Refresh Top Stories",
         "icon": "$(sync)"
+      },
+      {
+        "command": "hacker-news.clear-history",
+        "title": "Clear Story History",
+        "icon": "$(trash)"
       }
     ],
     "menus": {
@@ -93,6 +104,11 @@
         },
         {
           "command": "hacker-news.refresh-stories",
+          "when": "view == hacker-news-top-stories",
+          "group": "navigation"
+        },
+        {
+          "command": "hacker-news.clear-history",
           "when": "view == hacker-news-top-stories",
           "group": "navigation"
         }
