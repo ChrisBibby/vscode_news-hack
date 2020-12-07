@@ -35,4 +35,5 @@ export interface Article {
   title: string;
   type: string;
   url: string;
+  read: boolean;
 }
