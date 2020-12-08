@@ -6,13 +6,12 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
   private hackerNewsUrl = 'https://news.ycombinator.com/item?id=';
   private hackerNewsApi: HackerNewsApi = new HackerNewsApi();
   private articleList: Article[] = [];
-  private history: History = new History();
+  private history: number[] = [];
 
-  constructor(private context: vscode.ExtensionContext) { }
+  constructor(private context: vscode.ExtensionContext) {}
 
   async populateArticleTree(articles: Article[]): Promise<TreeItem[]> {
-
-    this.history.articlesRead = await this.context.globalState.get('articleHistory') || [];
+    this.history = (await this.context.globalState.get('articleHistory')) || [];
 
     const tree: TreeItem[] = [];
     for (const article of articles) {
@@ -29,10 +28,12 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
       };
 
       const treeNode: TreeItem = new TreeItem(article.title, [childNode]);
-      const iconColor = this.isArticleRead(article.id) ? 'newsHack.read' : 'newsHack.unread';
       treeNode.tooltip = `${article.title} - ${url}`;
       treeNode.description = `${url}`;
-      treeNode.iconPath = new vscode.ThemeIcon('link', new vscode.ThemeColor(iconColor));
+      treeNode.iconPath = new vscode.ThemeIcon(
+        'link',
+        new vscode.ThemeColor(this.isArticleRead(article.id) ? 'newsHack.read' : 'newsHack.unread')
+      );
       treeNode.command = {
         command: 'hack-news.openArticle',
         title: 'Open Article',
@@ -43,8 +44,8 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
     return tree;
   }
 
-  private _onDidChangeTreeData: vscode.EventEmitter<any> = new vscode.EventEmitter<any>();
-  readonly onDidChangeTreeData: vscode.Event<any> = this._onDidChangeTreeData.event;
+  private _onDidChangeTreeData: vscode.EventEmitter<TreeItem | undefined> = new vscode.EventEmitter<TreeItem | undefined>();
+  readonly onDidChangeTreeData: vscode.Event<TreeItem | undefined> = this._onDidChangeTreeData.event;
 
   refresh(): void {
     this._onDidChangeTreeData.fire(undefined);
@@ -63,32 +64,27 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
     return Promise.resolve(element.children || undefined);
   }
 
+  async markArticleRead(articleId: number): Promise<void> {
+    this.history = (await this.context.globalState.get('articleHistory')) || [];
+    if (this.history?.length > 200) {
+      this.history.shift();
+    }
+    this.history.push(articleId);
+    await this.context.globalState.update('articleHistory', this.history);
+  }
+
+  async clearArticleHistory(): Promise<void> {
+    await this.context.globalState.update('articleHistory', []);
+  }
+
   isArticleRead(articleId: number): boolean {
-    if (this.history.articlesRead && this.history.articlesRead.length > 0) {
-      return this.history.articlesRead.includes(articleId);
+    if (this.history?.length > 0) {
+      return this.history.includes(articleId);
     }
     return false;
   }
-
-  async markArticleRead(articleId: number) {
-    this.history.articlesRead = await this.context.globalState.get('articleHistory') || [];
-    if (this.history.articlesRead) {
-      if (this.history.articlesRead.length > 200) {
-        this.history.articlesRead.shift();
-      }
-      this.history.articlesRead.push(articleId);
-      await this.context.globalState.update('articleHistory', this.history.articlesRead);
-    }
-  }
-
-  async clearArticleHistory() {
-    await this.context.globalState.update('articleHistory', []);
-  }
 }
 
-class History {
-  articlesRead: number[] | undefined = [];
-}
 class TreeItem extends vscode.TreeItem {
   children?: TreeItem[];
 

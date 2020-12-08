@@ -5,7 +5,7 @@ export class HackerNewsApi {
 
   public async getTopStories(): Promise<Article[]> {
     const topStoriesEndpoint = 'topstories.json';
-    const storiesToFetch = 25;
+    const storiesToFetch = 30;
 
     // TODO: Add Try/Catch blocks to handle errors/rejects.
     const topStoriesResponse: AxiosResponse = await axios.get(`${this.baseUrl}${topStoriesEndpoint}`);
