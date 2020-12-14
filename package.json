@@ -116,10 +116,11 @@
     }
   },
   "scripts": {
+    "commit": "cz",
+    "deploy": "vsce publish",
     "lint": "eslint src --ext ts",
     "fix:prettier": "prettier \"**/*.ts\" --write",
     "package": "vsce package",
-    "deploy": "vsce publish",
     "vscode:prepublish": "webpack --mode production",
     "webpack": "webpack --mode development",
     "webpack-dev": "webpack --mode development --watch"
@@ -129,6 +130,8 @@
     "@types/vscode": "^1.51.0",
     "@typescript-eslint/eslint-plugin": "^3.8.0",
     "@typescript-eslint/parser": "^3.8.0",
+    "commitizen": "^4.2.2",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.0.0",
     "prettier": "^2.2.1",
@@ -142,5 +145,10 @@
   "dependencies": {
     "axios": "^0.21.0",
     "dayjs": "^1.9.7"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
