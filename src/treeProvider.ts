@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
+import * as dayJs from 'dayjs';
+import  * as relativeTime from 'dayjs/plugin/relativeTime';
 import { Article, HackerNewsApi } from './hackerNewsApi';
-import moment = require('moment');
 
 export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeItem> {
   private hackerNewsUrl = 'https://news.ycombinator.com/item?id=';
@@ -8,7 +9,9 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
   private articleList: Article[] = [];
   private history: number[] = [];
 
-  constructor(private context: vscode.ExtensionContext) {}
+  constructor(private context: vscode.ExtensionContext) {
+    dayJs.extend(relativeTime);
+  }
 
   async populateArticleTree(articles: Article[]): Promise<TreeItem[]> {
     this.history = (await this.context.globalState.get('articleHistory')) || [];
@@ -16,7 +19,7 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
     const tree: TreeItem[] = [];
     for (const article of articles) {
       const url = article.url ? article.url : `${this.hackerNewsUrl}${article.id}`;
-      const timeSince = moment.unix(article.time).fromNow();
+      const timeSince = dayJs.unix(article.time).fromNow();
 
       const childNode: TreeItem = new TreeItem(`${article.score} points by ${article.by} ${timeSince} - ${article.descendants} comments`);
       childNode.description = `${this.hackerNewsUrl}${article.id}`;

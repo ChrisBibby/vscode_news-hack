@@ -141,6 +141,6 @@
   },
   "dependencies": {
     "axios": "^0.21.0",
-    "moment": "^2.29.1"
+    "dayjs": "^1.9.7"
   }
 }
