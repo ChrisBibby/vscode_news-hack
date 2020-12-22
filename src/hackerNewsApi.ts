@@ -1,19 +1,18 @@
 import axios, { AxiosResponse, AxiosPromise } from 'axios';
 
 export class HackerNewsApi {
-  private baseUrl = 'https://hacker-news.firebaseio.com/v0/';
-
-  public async getTopStories(): Promise<Article[]> {
+  public static async getTopStories(): Promise<Article[]> {
+    const baseUrl = 'https://hacker-news.firebaseio.com/v0/';
     const topStoriesEndpoint = 'topstories.json';
     const storiesToFetch = 30;
 
     // TODO: Add Try/Catch blocks to handle errors/rejects.
-    const topStoriesResponse: AxiosResponse = await axios.get(`${this.baseUrl}${topStoriesEndpoint}`);
+    const topStoriesResponse: AxiosResponse = await axios.get(`${baseUrl}${topStoriesEndpoint}`);
     const articleIds: number[] =
       topStoriesResponse.data.length > storiesToFetch ? topStoriesResponse.data.splice(0, storiesToFetch) : topStoriesResponse.data;
 
     const articleRequests: AxiosPromise[] = articleIds.map((articleId) => {
-      return axios({ url: `${this.baseUrl}item/${articleId}.json`, method: 'GET' });
+      return axios.get(`${baseUrl}item/${articleId}.json`);
     });
 
     const articleResponses = await Promise.all<AxiosResponse>(articleRequests);
@@ -35,5 +34,5 @@ export interface Article {
   title: string;
   type: string;
   url: string;
-  read: boolean;
+  read?: boolean;
 }

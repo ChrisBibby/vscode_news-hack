@@ -1,11 +1,10 @@
 import * as vscode from 'vscode';
 import * as dayJs from 'dayjs';
-import  * as relativeTime from 'dayjs/plugin/relativeTime';
+import * as relativeTime from 'dayjs/plugin/relativeTime';
 import { Article, HackerNewsApi } from './hackerNewsApi';
 
 export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeItem> {
   private hackerNewsUrl = 'https://news.ycombinator.com/item?id=';
-  private hackerNewsApi: HackerNewsApi = new HackerNewsApi();
   private articleList: Article[] = [];
   private history: number[] = [];
 
@@ -60,7 +59,7 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
 
   async getChildren(element?: TreeItem): Promise<TreeItem[] | undefined> {
     if (element === undefined) {
-      this.articleList = await this.hackerNewsApi.getTopStories();
+      this.articleList = await HackerNewsApi.getTopStories();
       return this.populateArticleTree(this.articleList);
     }
 
