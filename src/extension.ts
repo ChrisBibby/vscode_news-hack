@@ -26,7 +26,7 @@ export async function activate(_context: vscode.ExtensionContext) {
   });
 
   vscode.commands.registerCommand('hacker-news.visit-website', () => {
-    const hackerNewsUrl = "https://news.ycombinator.com/";
+    const hackerNewsUrl = 'https://news.ycombinator.com/';
     if (vscode.env.openExternal) {
       vscode.env.openExternal(vscode.Uri.parse(hackerNewsUrl));
     } else {
@@ -35,4 +35,4 @@ export async function activate(_context: vscode.ExtensionContext) {
   });
 }
 
-export function deactivate() { }
+export function deactivate() {}

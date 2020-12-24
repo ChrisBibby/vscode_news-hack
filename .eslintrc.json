@@ -14,6 +14,12 @@
     "curly": "warn",
     "eqeqeq": "warn",
     "no-throw-literal": "warn",
-    "semi": "off"
-  }
+    "semi": "warn"
+  },
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "prettier",
+      "prettier/@typescript-eslint",
+      "prettier/prettier"
+  ]
 }

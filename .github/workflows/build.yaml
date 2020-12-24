@@ -6,13 +6,13 @@ on:
 jobs:
   build:
     name: Build & Test
-    runs-on: ubuntu-latest
+    runs-on: Ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '14.x'
 
       - name: Cache node modules
         uses: actions/cache@v1
@@ -25,6 +25,6 @@ jobs:
             ${{ runner.OS }}-
       - run: npm ci
       - run: npm run compile --if-present
-        #      - run: npm run test
+      - run: npm run test
         env:
           CI: true
