@@ -1,26 +1,31 @@
 import axios, { AxiosResponse, AxiosPromise } from 'axios';
 
 export class HackerNewsApi {
-  public static async getTopStories(): Promise<Article[]> {
-    const baseUrl = 'https://hacker-news.firebaseio.com/v0/';
-    const topStoriesEndpoint = 'topstories.json';
-    const storiesToFetch = 30;
-
-    // TODO: Add Try/Catch blocks to handle errors/rejects.
-    const topStoriesResponse: AxiosResponse = await axios.get(`${baseUrl}${topStoriesEndpoint}`);
-    const articleIds: number[] =
-      topStoriesResponse.data.length > storiesToFetch ? topStoriesResponse.data.splice(0, storiesToFetch) : topStoriesResponse.data;
-
-    const articleRequests: AxiosPromise[] = articleIds.map((articleId) => {
-      return axios.get(`${baseUrl}item/${articleId}.json`);
+  public static async getTopStories(articleLimit = 30, timeout = 30): Promise<Article[]> {
+    const http = axios.create({
+      timeout,
+      baseURL: 'https://hacker-news.firebaseio.com/v0/',
     });
 
-    const articleResponses = await Promise.all<AxiosResponse>(articleRequests);
-    const articles: Article[] = articleResponses.map((article) => {
-      return article.data;
-    });
+    let articles: Article[] = [];
+    try {
+      const topStoriesResponse: AxiosResponse = await http.get('topstories.json');
+      const articleIds: number[] =
+        topStoriesResponse.data.length > articleLimit ? topStoriesResponse.data.splice(0, articleLimit) : topStoriesResponse.data;
 
-    return Promise.resolve(articles);
+      const articleRequests: AxiosPromise[] = articleIds.map((articleId) => {
+        return http.get(`item/${articleId}.json`);
+      });
+
+      const articleResponses = await Promise.all<AxiosResponse>(articleRequests);
+      articles = articleResponses.map((article) => {
+        return article.data;
+      });
+
+      return Promise.resolve(articles);
+    } catch (error) {
+      throw new Error('Failed to retrieve Hacker News articles');
+    }
   }
 }
 
