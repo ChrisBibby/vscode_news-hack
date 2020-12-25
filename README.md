@@ -1,6 +1,7 @@
 [![](https://vsmarketplacebadge.apphb.com/version/chrisbibby.news-hack.svg)](https://marketplace.visualstudio.com/items?itemName=chrisbibby.news-hack)
 [![](https://vsmarketplacebadge.apphb.com/installs/chrisbibby.news-hack.svg)](https://marketplace.visualstudio.com/items?itemName=chrisbibby.news-hack)
 [![](https://vsmarketplacebadge.apphb.com/rating/chrisbibby.news-hack.svg)](https://marketplace.visualstudio.com/items?itemName=chrisbibby.news-hack&ssr=false#review-details)
+[![Coverage Status](https://coveralls.io/repos/github/ChrisBibby/vscode_news-hack/badge.svg?branch=feature/coveralls)](https://coveralls.io/github/ChrisBibby/vscode_news-hack?branch=feature/coveralls)
 
 # News Hack README
 
