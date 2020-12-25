@@ -62,7 +62,15 @@ describe('Hacker News API', () => {
   });
 
   it('Successfully handle error whilst retrieving article ids', async () => {
-    mockedAxios.get.mockRejectedValueOnce('404');
+    mockedAxios.get.mockRejectedValueOnce(new Error('404 - Not found'));
     expect(async () => await HackerNewsApi.getTopStories()).rejects.toThrow('Failed to retrieve Hacker News articles');
+  });
+
+  it('Successfully handle timeout whilst retrieving articles', async () => {
+    const timeout = 1;
+    mockedAxios.get.mockRejectedValueOnce(new Error(`timeout of ${timeout}ms exceeded`));
+    expect(async () => await HackerNewsApi.getTopStories(30, timeout)).rejects.toThrow(
+      'Failed to retrieve Hacker News articles (timeed out)'
+    );
   });
 });

@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, AxiosPromise } from 'axios';
 
 export class HackerNewsApi {
-  public static async getTopStories(articleLimit = 30, timeout = 30): Promise<Article[]> {
+  public static async getTopStories(articleLimit = 30, timeout = 30 * 1000): Promise<Article[]> {
     const http = axios.create({
       timeout,
       baseURL: 'https://hacker-news.firebaseio.com/v0/',
@@ -24,6 +24,10 @@ export class HackerNewsApi {
 
       return Promise.resolve(articles);
     } catch (error) {
+      if (error.message === `timeout of ${timeout}ms exceeded`) {
+        throw new Error('Failed to retrieve Hacker News articles (timeed out)');
+      }
+
       throw new Error('Failed to retrieve Hacker News articles');
     }
   }
