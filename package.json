@@ -125,7 +125,7 @@
     "vscode:prepublish": "npm run lint && npm run test && webpack --mode production",
     "webpack": "webpack --mode production",
     "webpack-dev": "webpack --mode development",
-    "test": "jest --coverage"
+    "test": "jest --coverage --collectCoverageFrom='src/**/*.ts'"
   },
   "devDependencies": {
     "@types/jest": "^26.0.19",
