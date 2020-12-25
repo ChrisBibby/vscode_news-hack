@@ -3,6 +3,7 @@
   "displayName": "News Hack",
   "description": "Hacker News headlines from within VSCode.",
   "icon": "images/icon.png",
+  "license": "MIT",
   "keywords": [
     "news",
     "trending",
