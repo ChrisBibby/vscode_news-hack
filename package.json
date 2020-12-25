@@ -119,10 +119,10 @@
   "scripts": {
     "commit": "cz",
     "deploy": "vsce publish",
-    "lint": "eslint src --ext ts",
+    "lint": "eslint src --ext ts --max-warnings=0",
     "fix:prettier": "prettier \"**/*.ts\" --write",
     "package": "vsce package",
-    "vscode:prepublish": "webpack --mode production",
+    "vscode:prepublish": "npm run lint && npm run test && webpack --mode production",
     "webpack": "webpack --mode production",
     "webpack-dev": "webpack --mode development",
     "test": "jest --coverage"
