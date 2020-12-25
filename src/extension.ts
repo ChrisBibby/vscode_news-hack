@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { NodeDependenciesProvider } from './treeProvider';
 
-export async function activate(_context: vscode.ExtensionContext) {
+export async function activate(_context: vscode.ExtensionContext): Promise<void> {
   const treeDataProvider: NodeDependenciesProvider = new NodeDependenciesProvider(_context);
   vscode.window.registerTreeDataProvider('hacker-news-top-stories', treeDataProvider);
 
@@ -35,4 +35,6 @@ export async function activate(_context: vscode.ExtensionContext) {
   });
 }
 
-export function deactivate() {}
+export function deactivate(): void {
+  // no-op.
+}
