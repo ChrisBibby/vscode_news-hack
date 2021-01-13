@@ -30,12 +30,37 @@ describe('Hacker News API', () => {
     expect(mockedAxios.get).toHaveBeenCalledWith('topstories.json');
     expect(mockedAxios.get).toHaveBeenCalledWith('item/1.json');
     expect(mockedAxios.get).toHaveBeenCalledWith('item/2.json');
-    expect(articles.length).toEqual(2);
-    expect(articles[0].title).toEqual('TITLE_1');
-    expect(articles[0].by).toEqual('AUTHOR_1');
 
-    expect(articles[1].title).toEqual('TITLE_2');
-    expect(articles[1].by).toEqual('AUTHOR_2');
+    expect(articles).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "by": "AUTHOR_1",
+          "descendants": 1,
+          "id": 1,
+          "kids": Array [
+            2,
+          ],
+          "score": 1,
+          "time": 1175714200,
+          "title": "TITLE_1",
+          "type": "story",
+          "url": "http://www.example.com/",
+        },
+        Object {
+          "by": "AUTHOR_2",
+          "descendants": 1,
+          "id": 2,
+          "kids": Array [
+            2,
+          ],
+          "score": 1,
+          "time": 1175714201,
+          "title": "TITLE_2",
+          "type": "story",
+          "url": "http://www.example.com/",
+        },
+      ]
+    `);
   });
 
   it('Successfully fetch single article', async () => {
@@ -46,9 +71,24 @@ describe('Hacker News API', () => {
     const articles: Article[] = await HackerNewsApi.getTopStories(1);
     expect(mockedAxios.get).toHaveBeenCalledWith('topstories.json');
     expect(mockedAxios.get).toHaveBeenCalledWith('item/1.json');
-    expect(articles.length).toEqual(1);
-    expect(articles[0].title).toEqual('TITLE_1');
-    expect(articles[0].by).toEqual('AUTHOR_1');
+
+    expect(articles).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "by": "AUTHOR_1",
+          "descendants": 1,
+          "id": 1,
+          "kids": Array [
+            2,
+          ],
+          "score": 1,
+          "time": 1175714200,
+          "title": "TITLE_1",
+          "type": "story",
+          "url": "http://www.example.com/",
+        },
+      ]
+    `);
   });
 
   it('Successfully handle no articles ids being returned', async () => {
@@ -57,8 +97,7 @@ describe('Hacker News API', () => {
 
     const articles: Article[] = await HackerNewsApi.getTopStories();
     expect(mockedAxios.get).toHaveBeenCalledWith('topstories.json');
-    expect(mockedAxios.get);
-    expect(articles.length).toEqual(0);
+    expect(articles).toMatchInlineSnapshot(`Array []`);
   });
 
   it('Successfully handle error whilst retrieving article ids', async () => {
