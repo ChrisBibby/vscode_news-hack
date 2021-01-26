@@ -1,19 +1,23 @@
 {
   "name": "news-hack",
   "displayName": "News Hack",
-  "description": "Hacker News headlines from within VSCode.",
-  "icon": "images/icon.png",
+  "description": "Hacker News top stories from within VSCode.",
+  "icon": "images/newsHack128.png",
+  "license": "MIT",
   "keywords": [
     "news",
     "trending",
     "hacker news",
-    "stories"
+    "news-hack",
+    "stories",
+    "articles",
+    "headlines"
   ],
   "galleryBanner": {
     "color": "#000000",
     "theme": "dark"
   },
-  "version": "0.0.8",
+  "version": "0.0.9",
   "publisher": "chrisbibby",
   "author": {
     "name": "Chris Bibby"
@@ -31,14 +35,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:hacker-news-top-stories"
+    "onView:news-hack-top-stories"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "colors": [
       {
         "id": "newsHack.unread",
-        "description": "Color for displaying unread Hacker News articles",
+        "description": "Colour for displaying unread Hacker News articles",
         "defaults": {
           "dark": "#4169e1",
           "light": "#3d3d3d",
@@ -47,7 +51,7 @@
       },
       {
         "id": "newsHack.read",
-        "description": "Color for displaying read Hacker News articles",
+        "description": "Colour for displaying read Hacker News articles",
         "defaults": {
           "dark": "#89cff0",
           "light": "#cfcfcf",
@@ -58,39 +62,39 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "hacker-news",
-          "title": "Hacker News",
-          "icon": "./images/icon.png"
+          "id": "news-hack",
+          "title": "News Hack",
+          "icon": "./images/newsHack24.svg"
         }
       ]
     },
     "viewsWelcome": [
       {
-        "view": "hacker-news-top-stories",
+        "view": "news-hack-top-stories",
         "contents": "Retrieving Hacker News Top Stories"
       }
     ],
     "views": {
-      "hacker-news": [
+      "news-hack": [
         {
-          "id": "hacker-news-top-stories",
-          "name": "Top Stories"
+          "id": "news-hack-top-stories",
+          "name": "Top stories from Hacker News"
         }
       ]
     },
     "commands": [
       {
-        "command": "hacker-news.visit-website",
+        "command": "news-hack.visit-website",
         "title": "Open Hacker News Website",
         "icon": "$(globe)"
       },
       {
-        "command": "hacker-news.refresh-stories",
+        "command": "news-hack.refresh-stories",
         "title": "Refresh Top Stories",
         "icon": "$(sync)"
       },
       {
-        "command": "hacker-news.clear-history",
+        "command": "news-hack.clear-history",
         "title": "Clear Story History",
         "icon": "$(trash)"
       }
@@ -98,13 +102,18 @@
     "menus": {
       "view/title": [
         {
-          "command": "hacker-news.visit-website",
-          "when": "view == hacker-news-top-stories",
+          "command": "news-hack.visit-website",
+          "when": "view == news-hack-top-stories",
           "group": "navigation"
         },
         {
-          "command": "hacker-news.refresh-stories",
-          "when": "view == hacker-news-top-stories",
+          "command": "news-hack.refresh-stories",
+          "when": "view == news-hack-top-stories",
+          "group": "navigation"
+        },
+        {
+          "command": "news-hack.clear-history",
+          "when": "view == news-hack-top-stories",
           "group": "navigation"
         },
         {
@@ -112,38 +121,46 @@
           "when": "view == hacker-news-top-stories",
           "group": "navigation"
         }
-      ],
-      "view/item/context": []
+      ]
     }
   },
   "scripts": {
-    "compile": "tsc -p ./",
-    "lint": "eslint src --ext ts",
-    "pretest": "npm run compile && npm run lint",
-    "test": "node ./out/test/runTest.js",
-    "watch": "tsc -watch -p ./",
-    "package": "vsce package",
+    "commit": "cz",
     "deploy": "vsce publish",
-    "vscode:prepublish": "webpack --mode production",
-    "webpack": "webpack --mode development",
-    "webpack-dev": "webpack --mode development --watch",
-    "test-compile": "tsc -p ./"
+    "lint": "eslint src --ext ts --max-warnings=0",
+    "fix:prettier": "prettier \"**/*.ts\" --write",
+    "package": "vsce package",
+    "vscode:prepublish": "npm run lint && npm run test && webpack --mode production",
+    "webpack": "webpack --mode production",
+    "webpack-dev": "webpack --mode development",
+    "test": "jest --coverage"
   },
   "devDependencies": {
-    "@types/node": "^14.14.10",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.22",
     "@types/vscode": "^1.51.0",
-    "@typescript-eslint/eslint-plugin": "^3.8.0",
-    "@typescript-eslint/parser": "^3.8.0",
-    "eslint": "^7.14.0",
-    "ts-loader": "^8.0.11",
-    "typescript": "^4.1.2",
-    "vsce": "^1.81.1",
-    "vscode-test": "^1.4.1",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12"
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "commitizen": "^4.2.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.4.4",
+    "ts-loader": "^8.0.14",
+    "typescript": "^4.1.3",
+    "vsce": "^1.84.0",
+    "webpack": "^5.17.0",
+    "webpack-cli": "^4.4.0"
   },
   "dependencies": {
-    "axios": "^0.21.0",
-    "moment": "^2.29.1"
+    "axios": "^0.21.1",
+    "dayjs": "^1.10.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

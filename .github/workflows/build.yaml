@@ -1,8 +1,6 @@
 name: Hack-News
 on:
-  push:
-    branches-ignore:
-      - master
+  [push, pull_request]
 jobs:
   build:
     name: Build & Test
@@ -10,12 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
+          node-version: '14.x'
 
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
@@ -24,7 +22,12 @@ jobs:
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
       - run: npm ci
-      - run: npm run compile --if-present
-        #      - run: npm run test
+      - run: npm run package
+      - run: npm run test
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v1.1.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./.coverage/lcov.info
         env:
           CI: true
