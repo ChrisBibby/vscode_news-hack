@@ -115,6 +115,11 @@
           "command": "news-hack.clear-history",
           "when": "view == news-hack-top-stories",
           "group": "navigation"
+        },
+        {
+          "command": "hacker-news.clear-history",
+          "when": "view == hacker-news-top-stories",
+          "group": "navigation"
         }
       ]
     }

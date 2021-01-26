@@ -86,7 +86,6 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
     return false;
   }
 }
-
 class TreeItem extends vscode.TreeItem {
   children?: TreeItem[];
 
