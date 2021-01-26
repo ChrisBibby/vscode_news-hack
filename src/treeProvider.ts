@@ -4,7 +4,7 @@ import * as relativeTime from 'dayjs/plugin/relativeTime';
 import { Article, HackerNewsApi } from './hackerNewsApi';
 
 export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeItem> {
-  private hackerNewsUrl = 'https://news.ycombinator.com/item?id=';
+  private hackerNewsItemUrl = 'https://news.ycombinator.com/item?id=';
   private articleList: Article[] = [];
   private history: number[] = [];
 
@@ -17,16 +17,16 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
 
     const tree: TreeItem[] = [];
     for (const article of articles) {
-      const url = article.url ? article.url : `${this.hackerNewsUrl}${article.id}`;
+      const url = article.url ? article.url : `${this.hackerNewsItemUrl}${article.id}`;
       const timeSince = dayJs.unix(article.time).fromNow();
 
       const childNode: TreeItem = new TreeItem(`${article.score} points by ${article.by} ${timeSince} - ${article.descendants} comments`);
-      childNode.description = `${this.hackerNewsUrl}${article.id}`;
+      childNode.description = `${this.hackerNewsItemUrl}${article.id}`;
       childNode.iconPath = new vscode.ThemeIcon('comment-discussion');
       childNode.command = {
         command: 'hack-news.openArticle',
         title: 'Open Article',
-        arguments: [`${this.hackerNewsUrl}${article.id}`],
+        arguments: [`${this.hackerNewsItemUrl}${article.id}`],
       };
 
       const treeNode: TreeItem = new TreeItem(article.title, [childNode]);

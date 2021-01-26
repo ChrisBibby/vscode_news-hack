@@ -3,7 +3,7 @@ import { NodeDependenciesProvider } from './treeProvider';
 
 export async function activate(_context: vscode.ExtensionContext): Promise<void> {
   const treeDataProvider: NodeDependenciesProvider = new NodeDependenciesProvider(_context);
-  vscode.window.registerTreeDataProvider('hacker-news-top-stories', treeDataProvider);
+  vscode.window.registerTreeDataProvider('news-hack-top-stories', treeDataProvider);
 
   vscode.commands.registerCommand('hack-news.openArticle', (resource, articleId) => {
     if (vscode.env.openExternal) {
@@ -15,17 +15,17 @@ export async function activate(_context: vscode.ExtensionContext): Promise<void>
     }
   });
 
-  vscode.commands.registerCommand('hacker-news.refresh-stories', () => {
+  vscode.commands.registerCommand('news-hack.refresh-stories', () => {
     treeDataProvider.refresh();
   });
 
-  vscode.commands.registerCommand('hacker-news.clear-history', () => {
+  vscode.commands.registerCommand('news-hack.clear-history', () => {
     treeDataProvider.clearArticleHistory();
     treeDataProvider.refresh();
-    vscode.window.showInformationMessage(`Hacker News Article History has been cleared.`);
+    vscode.window.showInformationMessage(`News-Hack history has been cleared.`);
   });
 
-  vscode.commands.registerCommand('hacker-news.visit-website', () => {
+  vscode.commands.registerCommand('news-hack.visit-website', () => {
     const hackerNewsUrl = 'https://news.ycombinator.com/';
     if (vscode.env.openExternal) {
       vscode.env.openExternal(vscode.Uri.parse(hackerNewsUrl));

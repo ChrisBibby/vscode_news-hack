@@ -6,8 +6,11 @@ All notable changes to the "News-Hack" Vscode extension will be documented in th
 
 #### v0.0.9
 
-- Increased number of articles fetched, now retrieves Top 30
+- New Icons
+- Updated some minor UI elements
+- Increased number of articles fetched, now retrieves Top 30 stories
 - Improved fetching of articles
+- Readme updated
 
 #### v0.0.8
 
