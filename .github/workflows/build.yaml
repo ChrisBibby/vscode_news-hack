@@ -1,21 +1,19 @@
 name: Hack-News
 on:
-  push:
-    branches-ignore:
-      - master
+  [push, pull_request]
 jobs:
   build:
     name: Build & Test
-    runs-on: Ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: '14.x'
 
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
@@ -24,7 +22,7 @@ jobs:
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
       - run: npm ci
-      - run: npm run compile --if-present
+      - run: npm run package
       - run: npm run test
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v1.1.2
