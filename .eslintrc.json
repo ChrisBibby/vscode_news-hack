@@ -5,9 +5,7 @@
     "ecmaVersion": 6,
     "sourceType": "module"
   },
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "@typescript-eslint/naming-convention": "warn",
     "@typescript-eslint/semi": "warn",
@@ -16,10 +14,5 @@
     "no-throw-literal": "warn",
     "semi": "warn"
   },
-    "extends": [
-      "plugin:@typescript-eslint/recommended",
-      "prettier",
-      "prettier/@typescript-eslint",
-      "prettier/prettier"
-  ]
+  "extends": ["plugin:@typescript-eslint/recommended", "prettier"]
 }
