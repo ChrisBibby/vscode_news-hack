@@ -8,16 +8,18 @@
     "news",
     "trending",
     "hacker news",
+    "hacker-news",
     "news-hack",
     "stories",
     "articles",
-    "headlines"
+    "headlines",
+    "comments"
   ],
   "galleryBanner": {
     "color": "#000000",
     "theme": "dark"
   },
-  "version": "0.0.11",
+  "version": "1.0.0",
   "publisher": "chrisbibby",
   "author": {
     "name": "Chris Bibby"

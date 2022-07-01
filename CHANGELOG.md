@@ -4,6 +4,10 @@ All notable changes to the "News-Hack" Vscode extension will be documented in th
 
 ### [Released]
 
+####
+
+- Updated dependencies
+
 #### v0.0.11
 
 - Updated dependencies
