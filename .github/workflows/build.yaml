@@ -1,19 +1,18 @@
 name: Hack-News
-on:
-  [push, pull_request]
+on: [push, pull_request]
 jobs:
   build:
     name: Build & Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18
         uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: '18.x'
 
       - name: Cache node modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
@@ -24,10 +23,3 @@ jobs:
       - run: npm ci
       - run: npm run package
       - run: npm run test
-      - name: Coveralls GitHub Action
-        uses: coverallsapp/github-action@v1.1.2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./.coverage/lcov.info
-        env:
-          CI: true
