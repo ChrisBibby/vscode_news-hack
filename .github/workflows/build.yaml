@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 18
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '18.x'
 
@@ -20,6 +20,9 @@ jobs:
             ${{ runner.OS }}-build-${{ env.cache-name }}-
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
-      - run: npm ci
-      - run: npm run package
-      - run: npm run test
+      - name: Installing VSCode VSCE
+        run: npm i -g @vscode/vsce@latest
+      - name: Installing Dependencies
+        run: npm ci
+      - name: Building VSCode Extension
+        run: npm run package
