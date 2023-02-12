@@ -1,4 +1,4 @@
-name: Build
+name: Marketplace Deployment
 
 on:
   push:
