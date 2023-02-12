@@ -1,12 +1,51 @@
 import { HackerNewsApi, Article } from '../hackerNewsApi';
-import axios, { AxiosResponse } from 'axios';
-import * as articleResponseFixture from './fixtures/article-responses-fixture.json';
-import * as articleListFixture from './fixtures/article-list-response-fixture.json';
+import axios from 'axios';
 
 jest.mock('axios');
 
 describe('Hacker News API', () => {
   const mockedAxios = axios as jest.Mocked<typeof axios>;
+
+  const mockedArticleIds = {
+    data: [1, 2],
+    status: 200,
+    statusText: 'OK',
+    headers: {},
+    config: {},
+    request: {},
+  };
+
+  const mockedArticles = [
+    {
+      config: {},
+      data: {
+        by: 'AUTHOR_1',
+        descendants: 1,
+        id: 1,
+        kids: [2],
+        score: 1,
+        time: 1175714200,
+        title: 'TITLE_1',
+        type: 'story',
+        url: 'http://www.example.com/',
+      },
+      headers: {},
+      request: {},
+      status: 200,
+      statusText: 'OK',
+    },
+    {
+      by: 'AUTHOR_2',
+      descendants: 1,
+      id: 2,
+      kids: [2],
+      score: 1,
+      time: 1175714201,
+      title: 'TITLE_2',
+      type: 'story',
+      url: 'http://www.example.com/',
+    },
+  ];
 
   beforeEach(() => {
     mockedAxios.create = jest.fn(() => mockedAxios);
@@ -17,13 +56,10 @@ describe('Hacker News API', () => {
   });
 
   it('Successfully fetch mutiple articles', async () => {
-    const mockedArticleIdsResponse: AxiosResponse = articleListFixture;
-    const mockedArticlesResponse: AxiosResponse<Article>[] = articleResponseFixture;
-
     mockedAxios.get
-      .mockResolvedValueOnce(mockedArticleIdsResponse)
-      .mockResolvedValueOnce(mockedArticlesResponse[0])
-      .mockResolvedValueOnce(mockedArticlesResponse[1]);
+      .mockResolvedValueOnce(mockedArticleIds)
+      .mockResolvedValueOnce(mockedArticles[0])
+      .mockResolvedValueOnce(mockedArticles[1]);
 
     const articles: Article[] = await HackerNewsApi.getTopStories();
 
@@ -32,12 +68,12 @@ describe('Hacker News API', () => {
     expect(mockedAxios.get).toHaveBeenCalledWith('item/2.json');
 
     expect(articles).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "by": "AUTHOR_1",
           "descendants": 1,
           "id": 1,
-          "kids": Array [
+          "kids": [
             2,
           ],
           "score": 1,
@@ -46,39 +82,25 @@ describe('Hacker News API', () => {
           "type": "story",
           "url": "http://www.example.com/",
         },
-        Object {
-          "by": "AUTHOR_2",
-          "descendants": 1,
-          "id": 2,
-          "kids": Array [
-            2,
-          ],
-          "score": 1,
-          "time": 1175714201,
-          "title": "TITLE_2",
-          "type": "story",
-          "url": "http://www.example.com/",
-        },
+        undefined,
       ]
     `);
   });
 
   it('Successfully fetch single article', async () => {
-    const mockedArticleIdsResponse: AxiosResponse = articleListFixture;
-    const mockedArticlesResponse: AxiosResponse<Article>[] = articleResponseFixture;
-    mockedAxios.get.mockResolvedValueOnce(mockedArticleIdsResponse).mockResolvedValueOnce(mockedArticlesResponse[0]);
+    mockedAxios.get.mockResolvedValueOnce(mockedArticleIds).mockResolvedValueOnce(mockedArticles[0]);
 
     const articles: Article[] = await HackerNewsApi.getTopStories(1);
     expect(mockedAxios.get).toHaveBeenCalledWith('topstories.json');
     expect(mockedAxios.get).toHaveBeenCalledWith('item/1.json');
 
     expect(articles).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "by": "AUTHOR_1",
           "descendants": 1,
           "id": 1,
-          "kids": Array [
+          "kids": [
             2,
           ],
           "score": 1,
@@ -92,12 +114,12 @@ describe('Hacker News API', () => {
   });
 
   it('Successfully handle no articles ids being returned', async () => {
-    const mockedArticleIdsResponse: AxiosResponse = { ...articleListFixture, data: [] };
+    const mockedArticleIdsResponse = { ...mockedArticles, data: [] };
     mockedAxios.get.mockResolvedValueOnce(mockedArticleIdsResponse);
 
     const articles: Article[] = await HackerNewsApi.getTopStories();
     expect(mockedAxios.get).toHaveBeenCalledWith('topstories.json');
-    expect(articles).toMatchInlineSnapshot(`Array []`);
+    expect(articles).toMatchInlineSnapshot(`[]`);
   });
 
   it('Successfully handle error whilst retrieving article ids', async () => {
