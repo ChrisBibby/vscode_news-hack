@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches:
-      - "main"
+      - 'master'
 
 jobs:
   build:
@@ -14,7 +14,7 @@ jobs:
       - name: Use Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: '18'
       - name: Cache node modules
         uses: actions/cache@v3
         with:
@@ -47,7 +47,7 @@ jobs:
   vscode:
     needs: [build]
     name: Deploy to VSCode Marketplace
-    environment: "vscode"
+    environment: 'vscode'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
@@ -64,7 +64,7 @@ jobs:
   openvsx:
     needs: [build]
     name: Deploy to OpenVSX Marketplace
-    environment: "openvsx"
+    environment: 'openvsx'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
