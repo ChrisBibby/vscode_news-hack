@@ -23,10 +23,10 @@ export class HackerNewsApi {
       });
 
       return Promise.resolve(articles);
-    } catch (error : unknown) {
+    } catch (error: unknown) {
       if (error instanceof Error && error.message === `timeout of ${timeout}ms exceeded`) {
         throw new Error('Failed to retrieve Hacker News articles (timed out)');
-      } 
+      }
 
       throw new Error('Failed to retrieve Hacker News articles');
     }
