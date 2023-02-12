@@ -11,7 +11,7 @@
 
 This VSCode extension adds the ability to view the latest top 30 news stories from [Hacker News](https://news.ycombinator.com/)
 
-![Hack News VSCode Extension](https://raw.githubusercontent.com/chrisbibby/vscode_news-hack/develop/resources/news-hack_screenshot_01.png 'Hack News Top Stories')
+![Hack News VSCode Extension](https://raw.githubusercontent.com/chrisbibby/vscode_news-hack/master/resources/news-hack_screenshot_01.png 'Hack News Top Stories')
 
 ## Features
 
