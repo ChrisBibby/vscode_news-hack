@@ -1,4 +1,4 @@
-name: Hack-News
+name: Build and Test
 on: [pull_request]
 jobs:
   build:
