@@ -35,15 +35,22 @@ describe('Hacker News API', () => {
       statusText: 'OK',
     },
     {
-      by: 'AUTHOR_2',
-      descendants: 1,
-      id: 2,
-      kids: [2],
-      score: 1,
-      time: 1175714201,
-      title: 'TITLE_2',
-      type: 'story',
-      url: 'http://www.example.com/',
+      config: {},
+      data: {
+        by: 'AUTHOR_2',
+        descendants: 1,
+        id: 2,
+        kids: [2],
+        score: 1,
+        time: 1175714201,
+        title: 'TITLE_2',
+        type: 'story',
+        url: 'http://www.example.com/',
+      },
+      headers: {},
+      request: {},
+      status: 200,
+      statusText: 'OK',
     },
   ];
 
@@ -82,7 +89,19 @@ describe('Hacker News API', () => {
           "type": "story",
           "url": "http://www.example.com/",
         },
-        undefined,
+        {
+          "by": "AUTHOR_2",
+          "descendants": 1,
+          "id": 2,
+          "kids": [
+            2,
+          ],
+          "score": 1,
+          "time": 1175714201,
+          "title": "TITLE_2",
+          "type": "story",
+          "url": "http://www.example.com/",
+        },
       ]
     `);
   });
