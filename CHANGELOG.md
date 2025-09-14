@@ -4,9 +4,17 @@ All notable changes to the "News-Hack" Vscode extension will be documented in th
 
 ### [Released]
 
-####
+#### v1.0.2
 
 - Updated dependencies
+- Migrated to node 20
+
+#### 1.0.1
+
+- Updated dependencies
+- Fixed tests
+- Migrated to node 18
+- Automated deployment to VSCode and OpenVSX Marketplaces
 
 #### v0.0.11
 
