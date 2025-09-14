@@ -10,13 +10,13 @@ jobs:
     name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
       - name: Use Node.js 18
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v5
         with:
           node-version: '18'
       - name: Cache node modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
